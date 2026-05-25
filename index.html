@@ -17,20 +17,29 @@
             <div class="container">
                 <h2>Ingresa un colaborador</h2>
                     <form action="">
-                        <div class="error-form"></div>
-                        <label for="nombre">Nombre: </label>
-                        <input type="text" id="nombre" name="nombre">
+                        <div class="div-nombre">
+                            <div class="error-nombre"></div>
+                            <label for="nombre">Nombre: </label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
                         <br>
-                        <label for="apellido">Apellido: </label>
-                        <input type="text" id="apellido" name="apellido">
+                        <div class="div-apellido">
+                            <label for="apellido">Apellido: </label>
+                            <input type="text" id="apellido" name="apellido" required>
+                        </div>
                         <br>
-                        <label for="cargo">Cargo: </label>
-                        <input type="text" id="cargo" name="cargo">
+                        <div class="div-cargo">
+                            <label for="cargo">Cargo: </label>
+                            <input type="text" id="cargo" name="cargo" required>
+                        </div>
                         <br>
-                        <label for="correo">Correo: </label>
-                        <input type="email" id="correo" name="correo">
+                        <div class="div-email">
+                            <label for="correo">Correo: </label>
+                            <input type="email" id="correo" name="correo" required>
+                        </div>
                         <br>
-                        <button id="boton" type="submit">Guardar</button>
+                        <div class="div-boton"></div>
+                            <button id="boton-guardar" type="submit">Guardar</button>
                     </form>
             </div>
         </section>
@@ -48,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody id="tabla-colaboradores">
-                        
+
                     </tbody>
                 </table>
             </div>
