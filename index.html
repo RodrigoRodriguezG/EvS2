@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -27,8 +28,8 @@
                         <input type="text" id="cargo" name="cargo">
                         <br>
                         <label for="correo">Correo: </label>
-                        <input type="text" id="correo" name="correo">
-
+                        <input type="email" id="correo" name="correo">
+                        <br>
                         <button id="boton" type="submit">Guardar</button>
                     </form>
             </div>
@@ -46,16 +47,20 @@
                             <th>Correo</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr></tr>
+                    <tbody id="tabla-colaboradores">
+                        
                     </tbody>
                 </table>
             </div>
         </aside>
 
-        <footer>
-            <p>Rodrigo Rodriguez</p>
-        </footer>
+
     </main>
+
+    <footer>
+        <p>Rodrigo Rodriguez</p>
+    </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
