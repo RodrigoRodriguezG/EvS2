@@ -16,10 +16,14 @@ const botonGuardar = document.getElementById("boton-guardar")
 
 
 
+//---------FUNCIONESSSSSS---------
+//agregar a la tabla
 function anadirColaborador(listaColaboradores){
     const filaColaborador = document.getElementById("fila-colaboradores")
 
     let colaboradores = ""
+
+    //se crea una fila con celdas que usan los respectivos atributos de la variable colaborador
     for (let colaborador of listaColaboradores){
             colaboradores += `<tr><td>${colaborador.nombre}</td>
                             <td>${colaborador.apellido}</td>
@@ -29,7 +33,17 @@ function anadirColaborador(listaColaboradores){
     filaColaborador.innerHTML = colaboradores
 }
 
+//funcion para validar campos, luego se le entrega un objeto con los parametros correspondientes
+function validarCampo(input, errores, opciones) {
+    if (input.value.trim() === "" || input.value.length > opciones.largo) {
+        errores.push(`Ingrese un ${opciones.nombre} de 1 a ${opciones.largo} caracteres`)
+    }
 
+    //este es para el correo, si el objeto tiene regex, se valida como correo
+    if (opciones.regex && !opciones.regex.test(input.value)) {
+        errores.push(opciones.mensajeRegex)
+    }
+}
 
 
 botonGuardar.addEventListener("click", (e) => {
@@ -50,20 +64,16 @@ botonGuardar.addEventListener("click", (e) => {
 
 
     //Validaciones por largo, se añade el error a la lista correspondiente 
-    if (nombreInput.value.trim() === "" || nombreInput.value.length > 15){
-        erroresNombre.push("Ingrese un nombre de 1 a 15 caracteres")
-    }
-    if (apellidoInput.value.trim() === "" || apellidoInput.value.length > 15){
-        erroresApellido.push("Ingrese un apellido de 1 a 15 caracteres")
-    }
-    if (cargoInput.value.trim() === "" || cargoInput.value.length > 15){
-        erroresCargo.push("Ingrese un cargo de 1 a 15 caracteres")
-    }
+    validarCampo(nombreInput,   erroresNombre,   { nombre: "nombre",   largo: 15 })
+    validarCampo(apellidoInput, erroresApellido, { nombre: "apellido", largo: 15 })
+    validarCampo(cargoInput,    erroresCargo,    { nombre: "cargo",    largo: 15 })
 
-    const regexCorreo = /^[a-zA-Z0-9._%+-]+@empresa\.cl$/
-    if (correoInput.value.trim() === "" || !regexCorreo.test(correoInput.value)) {
-        erroresCorreo.push("Ingrese un correo con el formato esperado (abc@empresa.cl)")
-    }
+    validarCampo(correoInput, erroresCorreo, {
+        nombre: "correo",
+        largo: 50,
+        regex: /^[a-zA-Z0-9._%+-]+@empresa\.cl$/,
+        mensajeRegex: "Ingrese un correo con el formato esperado (abc@empresa.cl)"
+    })
 
 
     //Si se detectan errores en las listas, se envian al div correspondiente separados por una coma 
