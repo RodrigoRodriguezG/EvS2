@@ -15,6 +15,23 @@ const errorCorreo = document.getElementById("error-correo")
 const botonGuardar = document.getElementById("boton-guardar")
 
 
+
+function anadirColaborador(listaColaboradores){
+    const filaColaborador = document.getElementById("fila-colaboradores")
+
+    let colaboradores = ""
+    for (let colaborador of listaColaboradores){
+            colaboradores += `<tr><td>${colaborador.nombre}</td>
+                            <td>${colaborador.apellido}</td>
+                            <td>${colaborador.cargo}</td>
+                            <td>${colaborador.correo}</td></tr>`
+    }
+    filaColaborador.innerHTML = colaboradores
+}
+
+
+
+
 botonGuardar.addEventListener("click", (e) => {
     //prevenir que se recargue la pagina al dar click
     e.preventDefault()
@@ -81,5 +98,7 @@ botonGuardar.addEventListener("click", (e) => {
     //se añade a la lista y se muestra en consola para verificar
     listaColaboradores.push(colaboradorNuevo)
     console.log("Colaboradores:",listaColaboradores)
+
+    anadirColaborador(listaColaboradores)
 
 })
