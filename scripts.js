@@ -16,7 +16,10 @@ const botonGuardar = document.getElementById("boton-guardar")
 
 
 botonGuardar.addEventListener("click", (e) => {
+    //prevenir que se recargue la pagina al dar click
     e.preventDefault()
+
+    //listas mensajes de error
     let erroresNombre = []
     let erroresApellido = []
     let erroresCargo = []
@@ -59,6 +62,11 @@ botonGuardar.addEventListener("click", (e) => {
     }
     if (erroresCorreo.length > 0) {
         errorCorreo.innerText = erroresCorreo.join(", ")
+    }
+
+    //se interrumpe el registro si se detecta una lista con error
+    if (erroresNombre.length > 0 || erroresApellido.length > 0 || 
+        erroresCargo.length > 0 || erroresCorreo.length > 0) {
         return
     }
 
