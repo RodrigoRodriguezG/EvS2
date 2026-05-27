@@ -21,8 +21,6 @@ const filaColaborador = document.getElementById("fila-colaboradores")
 //---------FUNCIONESSSSSS---------
 //agregar a la tabla
 function anadirColaborador(listaColaboradores){
-
-
     let colaboradores = ""
 
     //se crea una fila con celdas que usan los respectivos atributos de la variable colaborador
@@ -41,8 +39,16 @@ function anadirColaborador(listaColaboradores){
 
 //funcion para validar campos, luego se le entrega un objeto con los parametros correspondientes
 function validarCampo(input, errores, opciones) {
+    //Validaciones por largo, se añade el error a la lista correspondiente 
     if (input.value.trim() === "" || input.value.length > opciones.largo) {
         errores.push(`Ingrese un ${opciones.nombre} de 1 a ${opciones.largo} caracteres`)
+    }
+
+    //valida que la entrada no tenga numeros
+    //solo valida si permitirNumeros es false
+    let regexcampos = /^[0-9]$/
+    if (!opciones.permitirNumeros && /[0-9]/.test(input.value)) {
+        errores.push(`El campo ${opciones.nombre} no permite números`)
     }
 
     //este es para el correo, si el objeto tiene regex, se valida como correo
@@ -51,9 +57,16 @@ function validarCampo(input, errores, opciones) {
     }
 }
 
+function textErrores(erroresCampo, errorCampo){
+    //Si se detectan errores en las listas, se envian al div correspondiente separados por una coma 
+    //(no se hasta que punto me sirva la coma porque por ahora solo es una validacion por campo pero ajá)
+        if (erroresCampo.length > 0) {
+        errorCampo.innerText = erroresCampo.join(", ")
+    }
+}
+
 //activa el input de busqueda
 document.getElementById("busqueda").addEventListener("input", filtrarTabla)
-
 
 function filtrarTabla() {
     //input en minuscula
@@ -95,34 +108,26 @@ botonGuardar.addEventListener("click", (e) => {
     errorCargo.innerText = ""
     errorCorreo.innerText = ""
 
-
-    //Validaciones por largo, se añade el error a la lista correspondiente 
-    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15})
-    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15})
-    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15})
+    //llamamos a la funcion de validar campos con su respectivo campos y parametros de objeto
+    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15, permitirNumeros: false})
+    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15, permitirNumeros: false})
+    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15, permitirNumeros: false})
 
     validarCampo(correoInput, erroresCorreo, {
         nombre: "correo",
         largo: 50,
-        regex: /^[a-zA-Z0-9._%+ñÑ-]+@empresa\.cl$/,
+        //el correo sí puede tener números
+        permitirNumeros: true, 
+        regex: /^[a-zA-Z0-9._%+-]+@empresa\.cl$/,
         mensajeRegex: "Ingrese un correo con el formato esperado (abc@empresa.cl)"
     })
 
+    //usamos la funcion de mostrar los textos de error
+    textErrores(erroresNombre, errorNombre)
+    textErrores(erroresApellido, errorApellido)
+    textErrores(erroresCargo, errorCargo)
+    textErrores(erroresCorreo, errorCorreo)
 
-    //Si se detectan errores en las listas, se envian al div correspondiente separados por una coma 
-    //(no se hasta que punto me sirva la coma porque por ahora solo es una validacion por campo pero ajá)
-    if (erroresNombre.length > 0) {
-        errorNombre.innerText = erroresNombre.join(", ")
-    }
-    if (erroresApellido.length > 0) {
-        errorApellido.innerText = erroresApellido.join(", ")
-    }
-    if (erroresCargo.length > 0) {
-        errorCargo.innerText = erroresCargo.join(", ")
-    }
-    if (erroresCorreo.length > 0) {
-        errorCorreo.innerText = erroresCorreo.join(", ")
-    }
 
     //se interrumpe el registro si se detecta una lista con error
     if (erroresNombre.length > 0 || erroresApellido.length > 0 || 
@@ -131,9 +136,13 @@ botonGuardar.addEventListener("click", (e) => {
     }
 
     //si los inputs son validos, creamos un colaborador como objeto con los inputs como valores
+
+    //conseguimos el id mas alto del array de colaboradores
     let maxId = Math.max(...listaColaboradores.map(c => c.id))
 
+    
     let colaboradorNuevo = {
+        //si no hay ningun colabordar registrado el id es 1, para que no de error -infinity
         id: listaColaboradores.length > 0 ? maxId + 1 : 1,
         nombre: nombreInput.value.trim(),
         apellido: apellidoInput.value.trim(),
