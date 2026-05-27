@@ -134,7 +134,7 @@ botonGuardar.addEventListener("click", (e) => {
     let maxId = Math.max(...listaColaboradores.map(c => c.id))
 
     let colaboradorNuevo = {
-        id: listaColaboradores.length > 0 ? Math.max(...listaColaboradores.map(c => c.id)) + 1 : 1,
+        id: listaColaboradores.length > 0 ? maxId + 1 : 1,
         nombre: nombreInput.value.trim(),
         apellido: apellidoInput.value.trim(),
         cargo: cargoInput.value.trim(),
