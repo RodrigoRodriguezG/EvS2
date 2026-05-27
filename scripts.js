@@ -28,12 +28,13 @@ function anadirColaborador(listaColaboradores){
     //se crea una fila con celdas que usan los respectivos atributos de la variable colaborador
     for (let colaborador of listaColaboradores){
             colaboradores += `<tr>
-                            <td>${colaborador.id}</td>
-                            <td>${colaborador.nombre}</td>
-                            <td>${colaborador.apellido}</td>
-                            <td>${colaborador.cargo}</td>
-                            <td>${colaborador.correo}</td>
-                            </tr>`
+                                <td>${colaborador.id}</td>
+                                <td>${colaborador.nombre}</td>
+                                <td>${colaborador.apellido}</td>
+                                <td>${colaborador.cargo}</td>
+                                <td>${colaborador.correo}</td>
+                                <td><button onclick="eliminarColaborador(${colaborador.id})">Eliminar</button></td>
+                              </tr>`
     }
     filaColaborador.innerHTML = colaboradores
 }
@@ -64,6 +65,11 @@ function filtrarTabla() {
     anadirColaborador(colaboradoresFiltrados)
 }
 
+function eliminarColaborador(id) {
+    listaColaboradores = listaColaboradores.filter(colaborador => colaborador.id !== id)
+    anadirColaborador(listaColaboradores)
+}
+
 
 botonGuardar.addEventListener("click", (e) => {
     //prevenir que se recargue la pagina al dar click
@@ -83,9 +89,9 @@ botonGuardar.addEventListener("click", (e) => {
 
 
     //Validaciones por largo, se añade el error a la lista correspondiente 
-    validarCampo(nombreInput,   erroresNombre,   { nombre: "nombre",   largo: 15 })
-    validarCampo(apellidoInput, erroresApellido, { nombre: "apellido", largo: 15 })
-    validarCampo(cargoInput,    erroresCargo,    { nombre: "cargo",    largo: 15 })
+    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15})
+    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15})
+    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15})
 
     validarCampo(correoInput, erroresCorreo, {
         nombre: "correo",
@@ -117,8 +123,10 @@ botonGuardar.addEventListener("click", (e) => {
     }
 
     //si los inputs son validos, creamos un colaborador como objeto con los inputs como valores
+    let maxId = Math.max(...listaColaboradores.map(c => c.id))
+
     let colaboradorNuevo = {
-        id: listaColaboradores.length + 1,
+        id: listaColaboradores.length > 0 ? Math.max(...listaColaboradores.map(c => c.id)) + 1 : 1,
         nombre: nombreInput.value.trim(),
         apellido: apellidoInput.value.trim(),
         cargo: cargoInput.value.trim(),
