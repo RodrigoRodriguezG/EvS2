@@ -11,24 +11,29 @@ const errorApellido = document.getElementById("error-apellido")
 const errorCargo = document.getElementById("error-cargo")
 const errorCorreo = document.getElementById("error-correo")
 
-//boton xd
+//variables importantes (quiza luego las cambie de lugar)
 const botonGuardar = document.getElementById("boton-guardar")
+const filaColaborador = document.getElementById("fila-colaboradores")
+
 
 
 
 //---------FUNCIONESSSSSS---------
 //agregar a la tabla
 function anadirColaborador(listaColaboradores){
-    const filaColaborador = document.getElementById("fila-colaboradores")
+
 
     let colaboradores = ""
 
     //se crea una fila con celdas que usan los respectivos atributos de la variable colaborador
     for (let colaborador of listaColaboradores){
-            colaboradores += `<tr><td>${colaborador.nombre}</td>
+            colaboradores += `<tr>
+                            <td>${colaborador.id}</td>
+                            <td>${colaborador.nombre}</td>
                             <td>${colaborador.apellido}</td>
                             <td>${colaborador.cargo}</td>
-                            <td>${colaborador.correo}</td></tr>`
+                            <td>${colaborador.correo}</td>
+                            </tr>`
     }
     filaColaborador.innerHTML = colaboradores
 }
@@ -43,6 +48,20 @@ function validarCampo(input, errores, opciones) {
     if (opciones.regex && !opciones.regex.test(input.value)) {
         errores.push(opciones.mensajeRegex)
     }
+}
+
+//activa el input de busqueda
+document.getElementById("busqueda").addEventListener("input", filtrarTabla)
+
+function filtrarTabla() {
+    let inputFiltro = document.getElementById("busqueda").value.toLowerCase()
+
+    let colaboradoresFiltrados = listaColaboradores.filter(colaborador => 
+        colaborador.nombre.toLowerCase().includes(inputFiltro) ||
+        colaborador.cargo.toLowerCase().includes(inputFiltro)
+    )
+
+    anadirColaborador(colaboradoresFiltrados)
 }
 
 
@@ -99,6 +118,7 @@ botonGuardar.addEventListener("click", (e) => {
 
     //si los inputs son validos, creamos un colaborador como objeto con los inputs como valores
     let colaboradorNuevo = {
+        id: listaColaboradores.length + 1,
         nombre: nombreInput.value.trim(),
         apellido: apellidoInput.value.trim(),
         cargo: cargoInput.value.trim(),
