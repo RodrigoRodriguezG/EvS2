@@ -114,10 +114,10 @@ botonGuardar.addEventListener("click", (e) => {
     errorCorreo.innerText = ""
 
     //llamamos a la funcion de validar campos con su respectivo campos y parametros de objeto
-    const regexSoloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/
-    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15, regexCampo: regexSoloLetras})
-    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15, regexCampo: regexSoloLetras})
-    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15, regexCampo: regexSoloLetras})
+    
+    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/})
+    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
+    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
 
     validarCampo(correoInput, erroresCorreo, {
         nombre: "correo",
