@@ -56,8 +56,8 @@ function validarCampo(input, errores, opciones) {
     }
     
     //verifica si el correo ya existe en la lista de colaboradores
-    if (listaColaboradores.some(c => c.correo === input.value.toLowerCase().trim())) {
-        errores.push(`El correo ${input.value} ya existe`)
+    if (opciones.unico && listaColaboradores.some(c => c.correo === input.value.toLowerCase().trim())) {
+    errores.push(`El correo ${input.value} ya existe`)
     }
 }
 
@@ -79,7 +79,8 @@ function filtrarTabla() {
     //filtra usando include con el input de filtro y en minuscula
     let colaboradoresFiltrados = listaColaboradores.filter(colaborador => 
         colaborador.nombre.toLowerCase().includes(inputFiltro) ||
-        colaborador.cargo.toLowerCase().includes(inputFiltro)
+        colaborador.cargo.toLowerCase().includes(inputFiltro) ||
+        colaborador.apellido.toLowerCase().includes(inputFiltro) // este es extra porque el millaqueo me dijo
     )
 
     //sobreescribe la tabla para mostrar solo los filtros, sin borrar los datos sin filtrar
@@ -122,6 +123,7 @@ botonGuardar.addEventListener("click", (e) => {
         nombre: "correo",
         largo: 50,
         //el correo sí puede tener números
+        unico: true,
         permitirNumeros: true, 
         regex: /^[a-zA-Z0-9._%+-]+@empresa\.cl$/,
         mensajeRegex: "Ingrese un correo con el formato esperado (abc@empresa.cl)"
@@ -154,6 +156,12 @@ botonGuardar.addEventListener("click", (e) => {
     //se añade a la lista y se muestra en consola para verificar
     listaColaboradores.push(colaboradorNuevo)
     console.log("Colaboradores:",listaColaboradores)
+
+    //limpiar los campos
+    nombreInput.value = ""
+    apellidoInput.value = ""
+    cargoInput.value = ""
+    correoInput.value = ""
 
     anadirColaborador(listaColaboradores)
 
