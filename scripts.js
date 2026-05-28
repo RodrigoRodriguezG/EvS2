@@ -56,7 +56,7 @@ function validarCampo(input, errores, opciones) {
     }
     
     //verifica si el correo ya existe en la lista de colaboradores
-    if (listaColaboradores.some(c => c.correo === input.value.trim())) {
+    if (listaColaboradores.some(c => c.correo === input.value.toLowerCase().trim())) {
         errores.push(`El correo ${input.value} ya existe`)
     }
 }
@@ -148,7 +148,7 @@ botonGuardar.addEventListener("click", (e) => {
         nombre: nombreInput.value.trim(),
         apellido: apellidoInput.value.trim(),
         cargo: cargoInput.value.trim(),
-        correo: correoInput.value.trim()
+        correo: correoInput.value.toLowerCase().trim()
     }
 
     //se añade a la lista y se muestra en consola para verificar
