@@ -79,8 +79,7 @@ function filtrarTabla() {
     //filtra usando include con el input de filtro y en minuscula
     let colaboradoresFiltrados = listaColaboradores.filter(colaborador => 
         colaborador.nombre.toLowerCase().includes(inputFiltro) ||
-        colaborador.cargo.toLowerCase().includes(inputFiltro) ||
-        colaborador.apellido.toLowerCase().includes(inputFiltro) // este es extra porque el millaqueo me dijo
+        colaborador.cargo.toLowerCase().includes(inputFiltro)
     )
 
     //sobreescribe la tabla para mostrar solo los filtros, sin borrar los datos sin filtrar
@@ -115,13 +114,13 @@ botonGuardar.addEventListener("click", (e) => {
 
     //llamamos a la funcion de validar campos con su respectivo campos y parametros de objeto
     
-    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/})
-    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
-    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
+    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 30, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
+    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 30, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
+    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 30, regexCampo: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/})
 
     validarCampo(correoInput, erroresCorreo, {
         nombre: "correo",
-        largo: 50,
+        largo: 80,
         //el correo sí puede tener números
         unico: true,
         permitirNumeros: true, 
