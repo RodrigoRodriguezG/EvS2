@@ -4,6 +4,7 @@ const apellidoInput = document.getElementById("apellido")
 const cargoInput = document.getElementById("cargo")
 const correoInput = document.getElementById("correo")
 let listaColaboradores = []
+let contadorId = 1
 
 //Variables de los divs para adjuntar errores
 const errorNombre = document.getElementById("error-nombre")
@@ -140,11 +141,10 @@ botonGuardar.addEventListener("click", (e) => {
     }
     //si los inputs son validos, creamos un colaborador como objeto con los inputs como valores
 
-    //conseguimos el id mas alto del array de colaboradores
-    let maxId = Math.max(...listaColaboradores.map(c => c.id))
+
     let colaboradorNuevo = {
-        //si no hay ningun colabordar registrado el id es 1, para que no de error -infinity
-        id: listaColaboradores.length > 0 ? maxId + 1 : 1,
+        //si no hay ningun colabordar registrado el id es 1
+        id: contadorId++,
         nombre: nombreInput.value.trim(),
         apellido: apellidoInput.value.trim(),
         cargo: cargoInput.value.trim(),
