@@ -44,16 +44,19 @@ function validarCampo(input, errores, opciones) {
         errores.push(`Ingrese un ${opciones.nombre} de 1 a ${opciones.largo} caracteres`)
     }
 
-    //valida que la entrada no tenga numeros
-    //solo valida si permitirNumeros es false
-    let regexcampos = /^[0-9]$/
-    if (!opciones.permitirNumeros && /[0-9]/.test(input.value)) {
-        errores.push(`El campo ${opciones.nombre} no permite números`)
+    // valida caracteres permitidos (letras, tildes, espacios)
+    if (opciones.regexCampo && !opciones.regexCampo.test(input.value.trim())) {
+        errores.push(`El campo ${opciones.nombre} solo permite letras`)
     }
 
     //este es para el correo, si el objeto tiene regex, se valida como correo
     if (opciones.regex && !opciones.regex.test(input.value)) {
         errores.push(opciones.mensajeRegex)
+    }
+    
+    //verifica si el correo ya existe en la lista de colaboradores
+    if (listaColaboradores.some(c => c.correo === input.value.trim())) {
+        errores.push(`El correo ${input.value} ya existe`)
     }
 }
 
@@ -109,9 +112,10 @@ botonGuardar.addEventListener("click", (e) => {
     errorCorreo.innerText = ""
 
     //llamamos a la funcion de validar campos con su respectivo campos y parametros de objeto
-    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15, permitirNumeros: false})
-    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15, permitirNumeros: false})
-    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15, permitirNumeros: false})
+    const regexSoloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/
+    validarCampo(nombreInput, erroresNombre, {nombre: "nombre", largo: 15, regexCampo: regexSoloLetras})
+    validarCampo(apellidoInput, erroresApellido, {nombre: "apellido", largo: 15, regexCampo: regexSoloLetras})
+    validarCampo(cargoInput, erroresCargo, {nombre: "cargo", largo: 15, regexCampo: regexSoloLetras})
 
     validarCampo(correoInput, erroresCorreo, {
         nombre: "correo",
@@ -134,13 +138,10 @@ botonGuardar.addEventListener("click", (e) => {
         erroresCargo.length > 0 || erroresCorreo.length > 0) {
         return
     }
-
     //si los inputs son validos, creamos un colaborador como objeto con los inputs como valores
 
     //conseguimos el id mas alto del array de colaboradores
     let maxId = Math.max(...listaColaboradores.map(c => c.id))
-
-    
     let colaboradorNuevo = {
         //si no hay ningun colabordar registrado el id es 1, para que no de error -infinity
         id: listaColaboradores.length > 0 ? maxId + 1 : 1,
